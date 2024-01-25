@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Chatwork Reaction Extractor",
+  "version": "1.0",
+  "description": "Extracts reaction list from Chatwork.",
+  "content_scripts": [
+    {
+      "matches": ["https://*.chatwork.com/*"],
+      "js": ["content.js"],
+			"css": ["dist/output.css"]
+    }
+  ]
+}
