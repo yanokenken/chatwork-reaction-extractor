@@ -34,24 +34,17 @@ async function load() {
 	}
 	isLoading = true;
 	console.log('load');
-	// 既にボタンがある場合削除
-	const buttons = document.querySelectorAll('.reaction-button');
-	for (const button of buttons) {
-		console.log('remove button')
-		button.remove();
-	}
-
-
   const reactionButtons = document.querySelectorAll('[aria-label="リアクションを確認する"]');
-	
 	if(!reactionButtons || reactionButtons.length === 0) {
 		if (RETRY_INITIALIZE_COUNT < 10) {
 			RETRY_INITIALIZE_COUNT++;
 			console.log('reaction buttons 再取得');
 			await load();
+			isLoading = false;
 			return;
 		}else if (RETRY_INITIALIZE_COUNT === 10) {
 			alert('マイチャットや個人間チャットでは動作しません。グループチャットで実行してください。');
+			isLoading = false;
 			return;
 		}
 	}
@@ -64,7 +57,9 @@ async function load() {
 			reactionCount(this)
 		});
     const parentElement = reactionButton.parentElement;
-    parentElement.parentNode.insertBefore(newButton, parentElement.nextSibling);		
+		if (parentElement.nextSibling == null) {
+			parentElement.parentNode.insertBefore(newButton, parentElement.nextSibling);
+		}
   };
 	isLoading = false;
 }
