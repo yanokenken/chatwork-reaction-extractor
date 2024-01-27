@@ -38,7 +38,6 @@ async function load() {
 		}
 		isLoading = false;
 		return;
-
 	}
 	retryInitializeCount = 0;
   for (const reactionButton of reactionButtons) {
