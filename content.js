@@ -11,14 +11,9 @@ wait(500).then(() => {
 		if (scrollPosition % 10 !== 0) {
 			return;
 		}
-		console.log('scrollPosition: ' + scrollPosition);
-		console.log('windowHeight: ' + windowHeight);
 
-		// if (/scrollPosition < windowHeight) {
-			console.log('reload');
-			await wait(500);
-			load();
-		// }
+		await wait(500);
+		load();
 	}, false);
 });
 
@@ -33,12 +28,10 @@ async function load() {
 		return;
 	}
 	isLoading = true;
-	console.log('load');
   const reactionButtons = document.querySelectorAll('[aria-label="リアクションを確認する"]');
 	if(!reactionButtons || reactionButtons.length === 0) {
 		if (RETRY_INITIALIZE_COUNT < 10) {
 			RETRY_INITIALIZE_COUNT++;
-			console.log('reaction buttons 再取得');
 			await load();
 			isLoading = false;
 			return;
@@ -135,7 +128,7 @@ async function reactionCount(elm) {
     ,'w-80','h-[80%]','overflow-scroll', 'm-auto', 'p-6'
     ,'rounded-md','shadow-lg', 'z-[1000]', 'bg-white'
     ,'fixed','top-1/2','left-1/2'
-);
+	);
 	modal.id = 'modal';
 	document.body.appendChild(modal);
 
@@ -197,7 +190,6 @@ async function getAllUsers() {
 	} else {
 		if (RETRY_GETALLUSER_COUNT < 10) {
 			RETRY_GETALLUSER_COUNT++;
-			console.log('get all users再取得');
 			await getAllUsers();
 			return;
 		}else if (RETRY_GETALLUSER_COUNT === 10) {
