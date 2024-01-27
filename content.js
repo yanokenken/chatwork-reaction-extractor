@@ -17,7 +17,7 @@ wait(500).then(() => {
 	}, false);
 });
 
-let RETRY_INITIALIZE_COUNT = 0;
+let retryInitializeCount = 0;
 let isLoading = false;
 /**
  * ロード処理
@@ -30,18 +30,17 @@ async function load() {
 	isLoading = true;
   const reactionButtons = document.querySelectorAll('[aria-label="リアクションを確認する"]');
 	if(!reactionButtons || reactionButtons.length === 0) {
-		if (RETRY_INITIALIZE_COUNT < 10) {
-			RETRY_INITIALIZE_COUNT++;
+		if (retryInitializeCount < 10) {
+			retryInitializeCount++;
 			await load();
-			isLoading = false;
-			return;
-		}else if (RETRY_INITIALIZE_COUNT === 10) {
+		}else if (retryInitializeCount === 10) {
 			alert('マイチャットや個人間チャットでは動作しません。グループチャットで実行してください。');
-			isLoading = false;
-			return;
 		}
+		isLoading = false;
+		return;
+
 	}
-	RETRY_INITIALIZE_COUNT = 0;
+	retryInitializeCount = 0;
   for (const reactionButton of reactionButtons) {
     const newButton = document.createElement('button');
     newButton.textContent = 'リアクションチェック';
@@ -172,7 +171,7 @@ async function getReactionUsers(elm) {
 	return userNames;
 }
 
-let RETRY_GETALLUSER_COUNT = 0;
+let retryGetAllUserCount = 0;
 /**
  * チャットグループの参加者を取得する
  * @returns チャットグループ参加者の名前の配列
@@ -188,16 +187,16 @@ async function getAllUsers() {
 		}, 500);
 
 	} else {
-		if (RETRY_GETALLUSER_COUNT < 10) {
-			RETRY_GETALLUSER_COUNT++;
+		if (retryGetAllUserCount < 10) {
+			retryGetAllUserCount++;
 			await getAllUsers();
 			return;
-		}else if (RETRY_GETALLUSER_COUNT === 10) {
+		}else if (retryGetAllUserCount === 10) {
 			alert('マイチャットや個人間チャットでは動作しません。グループチャットで実行してください。');
 			return false;
 		}
 	}
-	RETRY_GETALLUSER_COUNT = 0;
+	retryGetAllUserCount = 0;
 
 	let allUsers = [];
 	const userElements = document.querySelectorAll('.roomMemberTable__nameText');
